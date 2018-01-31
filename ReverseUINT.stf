@@ -1,0 +1,25 @@
+(* REVERSE UINT						*)
+(* ================================	*)
+(* Developed by: Patrick McDonagh	*)
+(* January 30, 2018					*)
+(* ================================	*)
+(* Reverses the bits of a UINT 		*)
+(* data type.					 	*)
+
+
+ReverseUINT.0 := InputUINT.15;
+ReverseUINT.1 := InputUINT.14;
+ReverseUINT.2 := InputUINT.13;
+ReverseUINT.3 := InputUINT.12;
+ReverseUINT.4 := InputUINT.11;
+ReverseUINT.5 := InputUINT.10;
+ReverseUINT.6 := InputUINT.9;
+ReverseUINT.7 := InputUINT.8;
+ReverseUINT.8 := InputUINT.7;
+ReverseUINT.9 := InputUINT.6;
+ReverseUINT.10 := InputUINT.5;
+ReverseUINT.11 := InputUINT.4;
+ReverseUINT.12 := InputUINT.3;
+ReverseUINT.13 := InputUINT.2;
+ReverseUINT.14 := InputUINT.1;
+ReverseUINT.15 := InputUINT.0;

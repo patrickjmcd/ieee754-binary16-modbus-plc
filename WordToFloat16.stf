@@ -1,0 +1,54 @@
+(* WORD TO FLOAT 16					*)
+(* ================================	*)
+(* Developed by: Patrick McDonagh	*)
+(* January 30, 2018					*)
+(* ================================	*)
+(* Converts a WORD data type,		*)
+(* typically from a modbus data 	*)
+(* source, into a IEEE-754 Binary16	*)
+(* (also known as Float16) value.	*)
+(* Returns a REAL data type.		*)
+
+reversedInput := ReverseUINT(ANY_TO_UINT(inp_Int));
+
+sign := 1.0;
+fraction := 0.0;
+exponent := 0.0;
+
+IF reversedInput.0 THEN
+    sign := -1.0;
+END_IF;
+
+(* Calculate the exponent *)
+exponent := exponent + ANY_TO_REAL(reversedInput.5) * EXPT(2.0, 0);
+exponent := exponent + ANY_TO_REAL(reversedInput.4) * EXPT(2.0, 1);
+exponent := exponent + ANY_TO_REAL(reversedInput.3) * EXPT(2.0, 2);
+exponent := exponent + ANY_TO_REAL(reversedInput.2) * EXPT(2.0, 3);
+exponent := exponent + ANY_TO_REAL(reversedInput.1) * EXPT(2.0, 4);
+
+(* Calculate the fraction *)
+fraction := fraction + ANY_TO_REAL(reversedInput.15) * EXPT(2.0, 0);
+fraction := fraction + ANY_TO_REAL(reversedInput.14) * EXPT(2.0, 1);
+fraction := fraction + ANY_TO_REAL(reversedInput.13) * EXPT(2.0, 2);
+fraction := fraction + ANY_TO_REAL(reversedInput.12) * EXPT(2.0, 3);
+fraction := fraction + ANY_TO_REAL(reversedInput.11) * EXPT(2.0, 4);
+fraction := fraction + ANY_TO_REAL(reversedInput.10) * EXPT(2.0, 5);
+fraction := fraction + ANY_TO_REAL(reversedInput.9) * EXPT(2.0, 6);
+fraction := fraction + ANY_TO_REAL(reversedInput.8) * EXPT(2.0, 7);
+fraction := fraction + ANY_TO_REAL(reversedInput.7) * EXPT(2.0, 8);
+fraction := fraction + ANY_TO_REAL(reversedInput.6) * EXPT(2.0, 9);
+
+
+IF exponent = 0.0 THEN
+    WordToFloat16 := sign * EXPT(2.0, -14) * fraction / EXPT(2.0, 10);
+ELSIF exponent = 31.0 THEN
+    IF fraction = 0.0 THEN
+        (* THIS SHOULD RETURN sign * infinity *)
+		WordToFloat16 := 0.0;
+    ELSE
+        (*THIS SHOULD RETURN NaN *)
+		WordToFloat16 := 0.0;
+	END_IF;
+ELSE
+    WordToFloat16 :=  sign * POW(2.0, exponent - 15.0) * (1.0 + fraction / EXPT(2.0, 10));
+END_IF;
